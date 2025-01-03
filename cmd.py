@@ -92,7 +92,7 @@ def contest_cmd(contest_name, year, tasks_number, contests_dict):
         print(Fore.YELLOW + "Количество задач должно быть положительным.")
         return
     year = str(year)
-    year = str(year)
+    tasks_number = str(tasks_number)
     # Existing contest check
     if year not in contests_dict.keys():
         contests_dict[year] = []
