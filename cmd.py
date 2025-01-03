@@ -56,6 +56,7 @@ def help_cmd(command):
 help | h
 exit
 contest | c
+submit | s
 """)
         return
     match command[1]:
@@ -65,6 +66,8 @@ contest | c
             print(exit_cmd.__doc__)
         case "contest":
             print(contest_cmd.__doc__)
+        case "submit":
+            print(submit_cmd.__doc__)
         case _:
             print(Fore.YELLOW + "Неизвестная команда для получения справки, "
                                 "используйте `help` для просмотра списка "
@@ -122,8 +125,36 @@ def contest_cmd(contest_name, year, tasks_number, contests_dict):
 
     new_contest = {
         "tasks_number": tasks_number,
-        "teams": []
+        "teams": {}
     }
     with open("data/" + contest_name + ".json", "w", encoding="utf-8") as f:
         json.dump(new_contest, f, indent=4)
     print("Добавлен новый контест", contest_name + '.')
+
+
+def submit_cmd(team_name, contest_name, tasks, contest_dict):
+    """
+    Добавляет данные результаты заданной команды в заданный контест.
+
+    submit %team_name% %contest_name% %result%
+
+        %team_name% - название команды, результат которой нужно добавить.
+        %contest_name% - название контеста для добавления результата.
+        %result% - набор результатов команды на каждую задачу:
+            0 – по задаче не было посылок
+            + – задача сдана с первой попытки
+            +X, где X целое число большее 0 – задача сдана с X + 1 попытки
+            -X, где X целое число большее 0 – по задаче сделано X попыток,
+                                              но задача не была решена
+    """
+
+    """
+    for i in tasks:
+        if i in ['+', '0']:
+            continue
+        elif i[0] == '+':
+    """
+    contest_dict["teams"][team_name] = tasks
+    with open("data/" + contest_name + ".json", "w", encoding="utf-8") as f:
+        json.dump(contest_dict, f, indent=4)
+    print("Добавлены результаты для команды", team_name)
