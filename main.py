@@ -9,8 +9,11 @@ while True:   # Main input loop
     command_header = command[0]
     match command_header:
         case "exit":
-            if cmd.arg_test(0, command):
+            if cmd.arg_test([0], command):
                 cmd.exit_cmd()
+        case "help" | "h":
+            if cmd.arg_test([0, 1], command):
+                cmd.help_cmd(command)
         case _:
             print(Fore.RED + "'", command_header, "' - не команда сервиса. "
-                  "Используйте `help` для списка команд.", sep='')
+                  "Используйте `help` для просмотра списка команд.", sep='')
